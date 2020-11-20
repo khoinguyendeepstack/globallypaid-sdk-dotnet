@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.301
+    - name: Install dependencies
+      working-directory: ./src
+      run: dotnet restore
+    - name: Build
+      working-directory: ./src
+      run: dotnet build -c Release --no-restore
+    - name: Test
+      working-directory: ./src
+      run: dotnet test --no-restore --verbosity normal
+    - name: Pack
+      working-directory: ./src/GloballyPaid.CSharp.Sdk
+      run: dotnet pack -c Release -p:PackageVersion=1.0.0.$GITHUB_RUN_NUMBER
+    - uses: actions/upload-artifact@v2
+      with:
+        name: globallypaid-sdk-dotnet.1.0.0.${{ github.run_number }}.nupkg
+        path: ./src/GloballyPaid.CSharp.Sdk/bin/Release/*.nupkg

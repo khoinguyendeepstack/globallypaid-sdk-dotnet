@@ -18,8 +18,9 @@ namespace GloballyPaid
         [JsonProperty("capture")]
         public bool Capture { get; set; } = true;
 
-        [JsonProperty("recurring")]
-        public bool Recurring { get; set; }
+        [JsonProperty("cof_type")]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public CofType CofType { get; set; }
 
         [JsonProperty("currency_code")]
         [JsonConverter(typeof(StringEnumConverter))]

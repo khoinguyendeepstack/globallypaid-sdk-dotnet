@@ -56,5 +56,17 @@ namespace GloballyPaid
                 }
             };
         }
+
+        internal UpdatePaymentInstrumentRequest ToUpdateRequest()
+        {
+            return new UpdatePaymentInstrumentRequest
+            {
+                Id = Id,
+                Type = Type,
+                CustomerId = CustomerId,
+                ClientCustomerId = ClientCustomerId,
+                BillingContact = BillingContact,
+            };
+        }
     }
 }

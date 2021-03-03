@@ -6,7 +6,7 @@ namespace GloballyPaid
     internal static class GloballyPaidConstants
     {
         public const string DefaultBaseUrl = "https://api.globallypaid.com";
-        public const string DefaultSandboxBaseUrl = "https://qa.api.globallypaid.com";
+        public const string DefaultSandboxBaseUrl = "https://sandbox.api.globallypaid.com";
 
         public static readonly string ApplicationJson = "application/json";
         public static readonly string BearerAuthenticationScheme = "Bearer";

@@ -20,9 +20,6 @@ namespace GloballyPaid
         [JsonProperty("amount")]
         public long Amount { get; set; }
 
-        [JsonProperty("recurring")]
-        public bool Recurring { get; set; }
-
         [JsonProperty("completed")]
         public DateTime Completed { get; set; }
     }

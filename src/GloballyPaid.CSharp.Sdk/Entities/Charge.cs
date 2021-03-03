@@ -28,8 +28,12 @@ namespace GloballyPaid
         [JsonProperty("captured")]
         public bool Captured { get; set; }
 
-        [JsonProperty("recurring")]
-        public bool Recurring { get; set; }
+        [JsonProperty("cvv")]
+        public string CVV { get; set; }
+
+        [JsonProperty("cof_type")]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public CofType CofType { get; set; }
 
         [JsonProperty("currency_code")]
         [JsonConverter(typeof(StringEnumConverter))]

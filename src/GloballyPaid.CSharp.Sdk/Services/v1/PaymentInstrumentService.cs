@@ -9,10 +9,20 @@ namespace GloballyPaid
     /// </summary>
     public class PaymentInstrumentService : Service, IPaymentInstrumentService
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public PaymentInstrumentService() { }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="client"></param>
         public PaymentInstrumentService(HttpServiceClient client) : base(client) { }
 
+        /// <summary>
+        /// BasePath
+        /// </summary>
         protected override string BasePath => $"api/v1/paymentinstrument";
 
         /// <summary>
@@ -106,9 +116,9 @@ namespace GloballyPaid
         /// <returns>A <see cref="PaymentInstrument"/> entity</returns>
         public PaymentInstrument Update(string creditCardNumber, string creditCardCvv, PaymentInstrument paymentInstrument, RequestOptions requestOptions = null)
         {
-            var request = paymentInstrument.ToRequest(creditCardNumber, creditCardCvv);
+            var request = paymentInstrument.ToUpdateRequest();
             TryReconfigureClient(request, requestOptions);
-            return Client.Put<PaymentInstrumentRequest, PaymentInstrument>($"{BasePath}/{paymentInstrument.Id}", request);
+            return Client.Put<UpdatePaymentInstrumentRequest, PaymentInstrument>($"{BasePath}/{paymentInstrument.Id}", request);
         }
 
         /// <summary>
@@ -122,9 +132,9 @@ namespace GloballyPaid
         /// <returns>A <see cref="PaymentInstrument"/> Task entity, representing the asynchronous operation</returns>
         public async Task<PaymentInstrument> UpdateAsync(string creditCardNumber, string creditCardCvv, PaymentInstrument paymentInstrument, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
         {
-            var request = paymentInstrument.ToRequest(creditCardNumber, creditCardCvv);
+            var request = paymentInstrument.ToUpdateRequest();
             TryReconfigureClient(request, requestOptions);
-            return await Client.PutAsync<PaymentInstrumentRequest, PaymentInstrument>($"{BasePath}/{paymentInstrument.Id}", request, checkResponseCode: false, cancellationToken);
+            return await Client.PutAsync<UpdatePaymentInstrumentRequest, PaymentInstrument>($"{BasePath}/{paymentInstrument.Id}", request, checkResponseCode: false, cancellationToken);
         }
 
         /// <summary>

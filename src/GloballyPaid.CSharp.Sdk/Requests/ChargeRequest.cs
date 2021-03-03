@@ -18,6 +18,9 @@ namespace GloballyPaid
         [JsonProperty("capture")]
         public bool Capture { get; set; } = true;
 
+        [JsonProperty("cvv")]
+        public string CVV { get; set; }
+
         [JsonProperty("cof_type")]
         [JsonConverter(typeof(StringEnumConverter))]
         public CofType CofType { get; set; }

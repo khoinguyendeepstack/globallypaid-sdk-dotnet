@@ -222,7 +222,7 @@ namespace GloballyPaid.Tests
 
             StubRequest(HttpMethod.Put, $"{BasePath}/id", HttpStatusCode.OK, expectedResult.ToJson());
 
-            var result = service.Update("41111111111111", "123", GetPaymentInstrument(), GetTestRequestOptions());
+            var result = service.Update(GetPaymentInstrument(), GetTestRequestOptions());
 
             AssertRequest(HttpMethod.Put, $"{BasePath}/id");
             Assert.Equal(expectedResult.ToJson(), result.ToJson());
@@ -235,7 +235,7 @@ namespace GloballyPaid.Tests
 
             StubRequest(HttpMethod.Put, $"{BasePath}/id", HttpStatusCode.OK, expectedResult.ToJson());
 
-            var result = await service.UpdateAsync("41111111111111", "123", GetPaymentInstrument(), GetTestRequestOptions());
+            var result = await service.UpdateAsync(GetPaymentInstrument(), GetTestRequestOptions());
 
             AssertRequest(HttpMethod.Put, $"{BasePath}/id");
             Assert.Equal(expectedResult.ToJson(), result.ToJson());
@@ -247,7 +247,7 @@ namespace GloballyPaid.Tests
             StubRequest(HttpMethod.Put, $"{BasePath}/id", HttpStatusCode.OK, GetInvalidJson());
 
             var exception = Assert.Throws<GloballyPaidException>(() =>
-               service.Update("41111111111111", "123", GetPaymentInstrument(), GetTestRequestOptions()));
+               service.Update(GetPaymentInstrument(), GetTestRequestOptions()));
 
             Assert.Equal(HttpStatusCode.OK, exception.GloballyPaidResponse.StatusCode);
             Assert.Equal("Exception of type 'GloballyPaid.GloballyPaidException' was thrown.", exception.Message);
@@ -261,7 +261,7 @@ namespace GloballyPaid.Tests
             StubRequest(HttpMethod.Put, $"{BasePath}/id", HttpStatusCode.BadRequest, GetInvalidStatusError());
 
             var exception = Assert.Throws<GloballyPaidException>(() =>
-              service.Update("41111111111111", "123", GetPaymentInstrument(), GetTestRequestOptions()));
+              service.Update(GetPaymentInstrument(), GetTestRequestOptions()));
 
             Assert.Equal(HttpStatusCode.BadRequest, exception.GloballyPaidResponse.StatusCode);
             Assert.Equal("Exception of type 'GloballyPaid.GloballyPaidException' was thrown.", exception.Message);

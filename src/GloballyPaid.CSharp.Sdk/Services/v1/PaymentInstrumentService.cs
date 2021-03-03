@@ -109,12 +109,10 @@ namespace GloballyPaid
         /// <summary>
         /// Sends a request to Globally Paid API to updated a payment instrument
         /// </summary>
-        /// <param name="creditCardNumber">The credit card number</param>
-        /// <param name="creditCardCvv">The credit card CVV</param>
         /// <param name="paymentInstrument">A <see cref="PaymentInstrument"/> entity to be updated</param>
         /// <param name="requestOptions">Used to reconfigure Globally Paid SDK setting for this particular call</param>
         /// <returns>A <see cref="PaymentInstrument"/> entity</returns>
-        public PaymentInstrument Update(string creditCardNumber, string creditCardCvv, PaymentInstrument paymentInstrument, RequestOptions requestOptions = null)
+        public PaymentInstrument Update(PaymentInstrument paymentInstrument, RequestOptions requestOptions = null)
         {
             var request = paymentInstrument.ToUpdateRequest();
             TryReconfigureClient(request, requestOptions);
@@ -124,13 +122,11 @@ namespace GloballyPaid
         /// <summary>
         /// Sends a request to Globally Paid API to updated a payment instrument, as an asynchronous operation
         /// </summary>
-        /// <param name="creditCardNumber">The credit card number</param>
-        /// <param name="creditCardCvv">The credit card CVV</param>
         /// <param name="paymentInstrument">A <see cref="PaymentInstrument"/> entity to be updated</param>
         /// <param name="requestOptions">Used to reconfigure Globally Paid SDK setting for this particular call</param>
         /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>A <see cref="PaymentInstrument"/> Task entity, representing the asynchronous operation</returns>
-        public async Task<PaymentInstrument> UpdateAsync(string creditCardNumber, string creditCardCvv, PaymentInstrument paymentInstrument, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
+        public async Task<PaymentInstrument> UpdateAsync(PaymentInstrument paymentInstrument, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
         {
             var request = paymentInstrument.ToUpdateRequest();
             TryReconfigureClient(request, requestOptions);
@@ -153,6 +149,7 @@ namespace GloballyPaid
         /// </summary>
         /// <param name="id">The <see cref="PaymentInstrument"/> id</param>
         /// <param name="requestOptions">Used to reconfigure Globally Paid SDK setting for this particular call</param>
+        /// <param name="cancellationToken"></param>
         /// <returns>A Task entity, representing the asynchronous operation</returns>
         public async Task DeleteAsync(string id, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
         {

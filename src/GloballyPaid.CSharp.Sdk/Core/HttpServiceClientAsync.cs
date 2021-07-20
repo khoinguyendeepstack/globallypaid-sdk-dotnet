@@ -61,9 +61,9 @@ namespace GloballyPaid
                 {
                     return JsonConvert.DeserializeObject<TEntity>(content);
                 }
-                catch (JsonException)
+                catch (JsonException jex)
                 {
-                    throw new GloballyPaidException(responseMessage.StatusCode, $"Invalid response object from API: \"{content}\"", globallyPaidResponse);
+                    throw new GloballyPaidException(responseMessage.StatusCode, $"Invalid response object from API: \"{content}\", message: \"{jex.Message}\"", globallyPaidResponse);
                 }
             }
             else
@@ -80,9 +80,9 @@ namespace GloballyPaid
                 response = JsonConvert.DeserializeAnonymousType(content,
                       new { response_code = string.Empty, message = string.Empty });
             }
-            catch (JsonException)
+            catch (JsonException jex)
             {
-                throw new GloballyPaidException(globallyPaidResponse.StatusCode, $"Invalid response object from API: \"{content}\"", globallyPaidResponse);
+                throw new GloballyPaidException(globallyPaidResponse.StatusCode, $"Invalid response object from API: \"{content}\", message: \"{jex.Message}\"", globallyPaidResponse);
             }
 
             if (response != null

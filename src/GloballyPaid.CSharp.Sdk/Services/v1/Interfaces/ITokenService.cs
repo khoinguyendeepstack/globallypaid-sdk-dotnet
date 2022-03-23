@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using GloballyPaid.Interface;
 
 namespace GloballyPaid
 {
@@ -14,7 +15,7 @@ namespace GloballyPaid
         /// <param name="request">A <see cref="TokenizeRequest"/> request object</param>
         /// <param name="requestOptions">Used to reconfigure Globally Paid SDK setting for this particular call</param>
         /// <returns>A <see cref="PaymentInstrument"/> entity</returns>
-        PaymentInstrument Tokenize(TokenizeRequest request, RequestOptions requestOptions = null);
+        IPaymentInstrument Tokenize(TokenizeRequest request, RequestOptions requestOptions = null);
 
         /// <summary>
         /// Sends a request to Globally Paid API to tokenize particular card data, as an asynchronous operation
@@ -23,6 +24,6 @@ namespace GloballyPaid
         /// <param name="requestOptions">Used to reconfigure Globally Paid SDK setting for this particular call</param>
         /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>A <see cref="PaymentInstrument"/> Task entity, representing the asynchronous operation</returns>
-        Task<PaymentInstrument> TokenizeAsync(TokenizeRequest request, RequestOptions requestOptions = null, CancellationToken cancellationToken = default);
+        Task<IPaymentInstrument> TokenizeAsync(TokenizeRequest request, RequestOptions requestOptions = null, CancellationToken cancellationToken = default);
     }
 }

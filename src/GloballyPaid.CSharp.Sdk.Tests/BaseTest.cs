@@ -8,6 +8,8 @@ namespace GloballyPaid.Tests
     [Collection("Globally Paid SDK tests")]
     public class BaseTest
     {
+        protected string _Id = "card_981234kjsdf8913";
+        protected string _customerId = "cus_981234kjsdf8913";
         protected HttpServiceClient Client { get; }
 
         protected MockHttpClientFixture MockHttpClientFixture { get; }
@@ -57,12 +59,12 @@ namespace GloballyPaid.Tests
             {
                 Id = "id",
                 Type = PaymentType.CreditCard,
-                CustomerId = "customer_id",
+                CustomerId = _customerId,
                 ClientCustomerId = "000000",
                 CreditCard = new CreditCard
                 {
                     Number = "4111111111111111",
-                    Cvv = "123",
+                    CVV = "123",
                     Brand = "Visa",
                     Expiration = "0725",
                     LastFour = "1111"
@@ -77,7 +79,7 @@ namespace GloballyPaid.Tests
                         City = "CIty",
                         State = "State",
                         PostalCode = "00000",
-                        Country = "Country"
+                        CountryCode = ISO3166CountryCode.USA
                     },
                     Email = "jane.doe@example.com",
                     Phone = "0000000000"
@@ -85,18 +87,19 @@ namespace GloballyPaid.Tests
             };
         }
 
-        protected PaymentInstrument GetPaymentInstrument()
+        protected PaymentInstrumentCardOnFile GetPaymentInstrument(bool forCreate = false)
         {
-            return new PaymentInstrument
+            return new PaymentInstrumentCardOnFile()
             {
-                Id = "id",
-                Type = PaymentType.CreditCard,
-                CustomerId = "customer_id",
+                Id = forCreate ? null : _Id,
+                Type = PaymentSourceType.CARD_ON_FILE,
+                CustomerId = _customerId,
                 ClientCustomerId = "000000",
                 Brand = "Visa",
                 Expiration = "0725",
                 LastFour = "1111",
-                BillingContact = new Contact
+                BIN = "411111",
+                BillingContact = new BillingContact()
                 {
                     FirstName = "Jane",
                     LastName = "Doe",
@@ -106,11 +109,12 @@ namespace GloballyPaid.Tests
                         City = "CIty",
                         State = "State",
                         PostalCode = "00000",
-                        Country = "Country"
+                        CountryCode = ISO3166CountryCode.USA
                     },
                     Email = "jane.doe@example.com",
                     Phone = "0000000000"
-                }
+                },
+                IsDefault = false
             };
         }
     }

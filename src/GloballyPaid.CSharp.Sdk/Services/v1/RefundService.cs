@@ -12,7 +12,7 @@ namespace GloballyPaid
 
         public RefundService(HttpServiceClient client) : base(client) { }
 
-        protected override string BasePath => $"api/v1/refund";
+        protected override string BasePath => $"api/v1/payments/refund";
 
         /// <summary>
         /// Sends a request to Globally Paid API to refund a particular charge

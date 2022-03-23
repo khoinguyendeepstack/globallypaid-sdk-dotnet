@@ -12,7 +12,7 @@ namespace GloballyPaid
         [JsonConverter(typeof(StringEnumConverter))]
         public PaymentType Type { get; set; }
 
-        [JsonProperty("creditcard")]
+        [JsonProperty("credit_card")]
         public CreditCard CreditCard { get; set; }
 
         [JsonProperty("customer_id")]

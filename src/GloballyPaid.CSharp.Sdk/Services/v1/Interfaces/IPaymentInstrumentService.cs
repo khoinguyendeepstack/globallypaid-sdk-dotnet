@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using GloballyPaid.Interface;
 
 namespace GloballyPaid
 {
@@ -15,7 +16,7 @@ namespace GloballyPaid
         /// <param name="customerId">The <see cref="Customer"/> Id</param>
         /// <param name="requestOptions">Used to reconfigure Globally Paid SDK setting for this particular call</param>
         /// <returns>A list of <see cref="PaymentInstrument"/> entities</returns>
-        List<PaymentInstrument> List(string customerId, RequestOptions requestOptions = null);
+        List<IPaymentInstrument> List(string customerId, RequestOptions requestOptions = null);
 
         /// <summary>
         /// Sends a request to Globally Paid API to get all payment instruments, as an asynchronous operation
@@ -24,7 +25,7 @@ namespace GloballyPaid
         /// <param name="requestOptions">Used to reconfigure Globally Paid SDK setting for this particular call</param>
         /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>A list of <see cref="PaymentInstrument"/> Task entities, representing the asynchronous operation</returns>
-        Task<List<PaymentInstrument>> ListAsync(string customerId, RequestOptions requestOptions = null, CancellationToken cancellationToken = default);
+        Task<List<IPaymentInstrument>> ListAsync(string customerId, RequestOptions requestOptions = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Sends a request to Globally Paid API to get a particular payment instrument by id
@@ -32,7 +33,7 @@ namespace GloballyPaid
         /// <param name="id">The <see cref="PaymentInstrument"/> Id</param>
         /// <param name="requestOptions">Used to reconfigure Globally Paid SDK setting for this particular call</param>
         /// <returns>A <see cref="PaymentInstrument"/> entity</returns>
-        PaymentInstrument Get(string id, RequestOptions requestOptions = null);
+        IPaymentInstrument Get(string id, string customerId, RequestOptions requestOptions = null);
 
         /// <summary>
         /// Sends a request to Globally Paid API to get a particular payment instrument by id, as an asynchronous operation
@@ -41,7 +42,7 @@ namespace GloballyPaid
         /// <param name="requestOptions">Used to reconfigure Globally Paid SDK setting for this particular call</param>
         /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>A <see cref="PaymentInstrument"/> Task entity, representing the asynchronous operation</returns>
-        Task<PaymentInstrument> GetAsync(string id, RequestOptions requestOptions = null, CancellationToken cancellationToken = default);
+        Task<IPaymentInstrument> GetAsync(string id, string customerId, RequestOptions requestOptions = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Sends a request to Globally Paid API to create a payment instrument
@@ -51,7 +52,7 @@ namespace GloballyPaid
         /// <param name="paymentInstrument">A <see cref="PaymentInstrument"/> entity to be created</param>
         /// <param name="requestOptions">Used to reconfigure Globally Paid SDK setting for this particular call</param>
         /// <returns>A <see cref="PaymentInstrument"/> entity</returns>
-        PaymentInstrument Create(string creditCardNumber, string creditCardCvv, PaymentInstrument paymentInstrument, RequestOptions requestOptions = null);
+        IPaymentInstrument Create(PaymentInstrumentRequest paymentInstrumentRequest, RequestOptions requestOptions = null);
 
         /// <summary>
         /// Sends a request to Globally Paid API to create a payment instrument, as an asynchronous operation
@@ -62,7 +63,7 @@ namespace GloballyPaid
         /// <param name="requestOptions">Used to reconfigure Globally Paid SDK setting for this particular call</param>
         /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>A <see cref="PaymentInstrument"/> Task entity, representing the asynchronous operation</returns>
-        Task<PaymentInstrument> CreateAsync(string creditCardNumber, string creditCardCvv, PaymentInstrument paymentInstrument, RequestOptions requestOptions = null, CancellationToken cancellationToken = default);
+        Task<IPaymentInstrument> CreateAsync(IPaymentInstrument paymentInstrument, RequestOptions requestOptions = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Sends a request to Globally Paid API to updated a payment instrument
@@ -70,7 +71,7 @@ namespace GloballyPaid
         /// <param name="paymentInstrument">A <see cref="PaymentInstrument"/> entity to be updated</param>
         /// <param name="requestOptions">Used to reconfigure Globally Paid SDK setting for this particular call</param>
         /// <returns>A <see cref="PaymentInstrument"/> entity</returns>
-        PaymentInstrument Update(PaymentInstrument paymentInstrument, RequestOptions requestOptions = null);
+        IPaymentInstrument Update(IPaymentInstrument paymentInstrument, RequestOptions requestOptions = null);
 
         /// <summary>
         /// Sends a request to Globally Paid API to updated a payment instrument, as an asynchronous operation
@@ -79,14 +80,14 @@ namespace GloballyPaid
         /// <param name="requestOptions">Used to reconfigure Globally Paid SDK setting for this particular call</param>
         /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>A <see cref="PaymentInstrument"/> Task entity, representing the asynchronous operation</returns>
-        Task<PaymentInstrument> UpdateAsync(PaymentInstrument paymentInstrument, RequestOptions requestOptions = null, CancellationToken cancellationToken = default);
+        Task<IPaymentInstrument> UpdateAsync(IPaymentInstrument paymentInstrument, RequestOptions requestOptions = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Sends a request to Globally Paid API to delete a payment instrument by id
         /// </summary>
         /// <param name="id">The <see cref="PaymentInstrument"/> id</param>
         /// <param name="requestOptions">Used to reconfigure Globally Paid SDK setting for this particular call</param>
-        void Delete(string id, RequestOptions requestOptions = null);
+        void Delete(string id, string customerId, RequestOptions requestOptions = null);
 
         /// <summary>
         /// Sends a request to Globally Paid API to delete a payment instrument by id, as an asynchronous operation
@@ -95,6 +96,6 @@ namespace GloballyPaid
         /// <param name="requestOptions">Used to reconfigure Globally Paid SDK setting for this particular call</param>
         /// <param name="cancellationToken"></param>
         /// <returns>A Task entity, representing the asynchronous operation</returns>
-        Task DeleteAsync(string id, RequestOptions requestOptions = null, CancellationToken cancellationToken = default);
+        Task DeleteAsync(string id, string customerId, RequestOptions requestOptions = null, CancellationToken cancellationToken = default);
     }
 }

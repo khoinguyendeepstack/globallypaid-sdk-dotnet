@@ -63,6 +63,7 @@ namespace GloballyPaid
                 }
                 catch (JsonException jex)
                 {
+                    System.Diagnostics.Debug.Write($"Invalid response object {typeof(TEntity)} from API: \"{content}\", message: \"{jex.Message}\"");
                     throw new GloballyPaidException(responseMessage.StatusCode, $"Invalid response object from API: \"{content}\", message: \"{jex.Message}\"", globallyPaidResponse);
                 }
             }

@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using GloballyPaid.Interface;
 
 namespace GloballyPaid
 {
@@ -12,7 +13,7 @@ namespace GloballyPaid
 
         public TokenService(HttpServiceClient client) : base(client) { }
 
-        protected override string BasePath => $"api/v1/token";
+        protected override string BasePath => $"api/v1/vault/token";
 
         /// <summary>
         /// Sends a request to Globally Paid API to tokenize particular card data
@@ -20,10 +21,10 @@ namespace GloballyPaid
         /// <param name="request">A <see cref="TokenizeRequest"/> request object</param>
         /// <param name="requestOptions">Used to reconfigure Globally Paid SDK setting for this particular call</param>
         /// <returns>A <see cref="PaymentInstrument"/> entity</returns>
-        public PaymentInstrument Tokenize(TokenizeRequest request, RequestOptions requestOptions = null)
+        public IPaymentInstrument Tokenize(TokenizeRequest request, RequestOptions requestOptions = null)
         {
             TryReconfigureClient(requestOptions);
-            return Client.Post<TokenizeRequest, PaymentInstrument>(BasePath, request);
+            return Client.Post<TokenizeRequest, IPaymentInstrument>(BasePath, request);
         }
 
         /// <summary>
@@ -33,10 +34,10 @@ namespace GloballyPaid
         /// <param name="requestOptions">Used to reconfigure Globally Paid SDK setting for this particular call</param>
         /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>A <see cref="PaymentInstrument"/> Task entity, representing the asynchronous operation</returns>
-        public async Task<PaymentInstrument> TokenizeAsync(TokenizeRequest request, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
+        public async Task<IPaymentInstrument> TokenizeAsync(TokenizeRequest request, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
         {
             TryReconfigureClient(requestOptions);
-            return await Client.PostAsync<TokenizeRequest, PaymentInstrument>(BasePath, request, checkResponseCode: false, cancellationToken);
+            return await Client.PostAsync<TokenizeRequest, IPaymentInstrument>(BasePath, request, checkResponseCode: false, cancellationToken);
         }
     }
 }

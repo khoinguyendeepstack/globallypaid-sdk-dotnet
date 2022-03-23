@@ -8,7 +8,7 @@ namespace GloballyPaid.Tests
 {
     public class CustomerServiceTest : BaseTest
     {
-        private const string BasePath = "/api/v1/customer";
+        private const string BasePath = "/api/v1/vault/customer";
 
         private readonly CustomerService service;
 
@@ -303,7 +303,7 @@ namespace GloballyPaid.Tests
                     City = "CIty",
                     State = "State",
                     PostalCode = "00000",
-                    Country = "Country"
+                    CountryCode = ISO3166CountryCode.USA
                 },
                 Email = "jane.doe@example.com",
                 Phone = "0000000000"

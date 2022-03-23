@@ -8,7 +8,7 @@ namespace GloballyPaid.Tests
 {
     public class PaymentInstrumentServiceTest : BaseTest
     {
-        private const string BasePath = "/api/v1/paymentinstrument";
+        private const string BasePath = "/api/v1/vault/payment-instrument";
 
         private readonly PaymentInstrumentService service;
 
@@ -97,13 +97,13 @@ namespace GloballyPaid.Tests
         [Fact]
         public void Get_Empty()
         {
-            var expectedResult = new PaymentInstrument();
+            var expectedResult = new PaymentInstrumentCardOnFile();
 
-            StubRequest(HttpMethod.Get, $"{BasePath}/id", HttpStatusCode.OK, expectedResult.ToJson());
+            StubRequest(HttpMethod.Get, $"{BasePath}/customerId/id", HttpStatusCode.OK, expectedResult.ToJson());
 
-            var result = service.Get("id");
+            var result = service.Get("id", "customerId");
 
-            AssertRequest(HttpMethod.Get, $"{BasePath}/id");
+            AssertRequest(HttpMethod.Get, $"{BasePath}/customerId/id");
             Assert.Equal(expectedResult.ToJson(), result.ToJson());
         }
 
@@ -112,11 +112,11 @@ namespace GloballyPaid.Tests
         {
             var expectedResult = GetPaymentInstrument();
 
-            StubRequest(HttpMethod.Get, $"{BasePath}/id", HttpStatusCode.OK, expectedResult.ToJson());
+            StubRequest(HttpMethod.Get, $"{BasePath}/customerId/id", HttpStatusCode.OK, expectedResult.ToJson());
 
-            var result = service.Get("id");
+            var result = service.Get("id", "customerId");
 
-            AssertRequest(HttpMethod.Get, $"{BasePath}/id");
+            AssertRequest(HttpMethod.Get, $"{BasePath}/customerId/id");
             Assert.Equal(expectedResult.ToJson(), result.ToJson());
         }
 
@@ -125,21 +125,21 @@ namespace GloballyPaid.Tests
         {
             var expectedResult = GetPaymentInstrument();
 
-            StubRequest(HttpMethod.Get, $"{BasePath}/id", HttpStatusCode.OK, expectedResult.ToJson());
+            StubRequest(HttpMethod.Get, $"{BasePath}/customerId/id", HttpStatusCode.OK, expectedResult.ToJson());
 
-            var result = await service.GetAsync("id");
+            var result = await service.GetAsync("id", "customerId");
 
-            AssertRequest(HttpMethod.Get, $"{BasePath}/id");
+            AssertRequest(HttpMethod.Get, $"{BasePath}/customerId/id");
             Assert.Equal(expectedResult.ToJson(), result.ToJson());
         }
 
         [Fact]
         public void Get_Error_Invalid_API_Response()
         {
-            StubRequest(HttpMethod.Get, $"{BasePath}/id", HttpStatusCode.OK, GetInvalidJson());
+            StubRequest(HttpMethod.Get, $"{BasePath}/customerId/id", HttpStatusCode.OK, GetInvalidJson());
 
             var exception = Assert.Throws<GloballyPaidException>(() =>
-               service.Get("id"));
+               service.Get("id", "customerId"));
 
             Assert.Equal(HttpStatusCode.OK, exception.GloballyPaidResponse.StatusCode);
             Assert.Equal("Exception of type 'GloballyPaid.GloballyPaidException' was thrown.", exception.Message);
@@ -150,10 +150,10 @@ namespace GloballyPaid.Tests
         [Fact]
         public void Get_Error_Invalid_Status()
         {
-            StubRequest(HttpMethod.Get, $"{BasePath}/id", HttpStatusCode.BadRequest, GetInvalidStatusError());
+            StubRequest(HttpMethod.Get, $"{BasePath}/customerId/id", HttpStatusCode.BadRequest, GetInvalidStatusError());
 
             var exception = Assert.Throws<GloballyPaidException>(() =>
-               service.Get("id"));
+               service.Get("id", "customerId"));
 
             Assert.Equal(HttpStatusCode.BadRequest, exception.GloballyPaidResponse.StatusCode);
             Assert.Equal("Exception of type 'GloballyPaid.GloballyPaidException' was thrown.", exception.Message);
@@ -166,11 +166,11 @@ namespace GloballyPaid.Tests
         {
             var expectedResult = GetPaymentInstrument();
 
-            StubRequest(HttpMethod.Post, BasePath, HttpStatusCode.OK, expectedResult.ToJson());
+            StubRequest(HttpMethod.Post, $"{BasePath}/{_customerId}", HttpStatusCode.OK, expectedResult.ToJson());
 
-            var result = service.Create("41111111111111", "123", GetPaymentInstrument(), GetTestRequestOptions());
+            var result = service.Create(GetPaymentInstrumentRequest(), GetTestRequestOptions());
 
-            AssertRequest(HttpMethod.Post, BasePath);
+            AssertRequest(HttpMethod.Post, $"{BasePath}/{_customerId}");
             Assert.Equal(expectedResult.ToJson(), result.ToJson());
         }
 
@@ -179,40 +179,12 @@ namespace GloballyPaid.Tests
         {
             var expectedResult = GetPaymentInstrument();
 
-            StubRequest(HttpMethod.Post, BasePath, HttpStatusCode.OK, expectedResult.ToJson());
+            StubRequest(HttpMethod.Post, $"{BasePath}/{_customerId}", HttpStatusCode.OK, expectedResult.ToJson());
 
-            var result = await service.CreateAsync("41111111111111", "123", GetPaymentInstrument(), GetTestRequestOptions());
+            var result = await service.CreateAsync(GetPaymentInstrument(), GetTestRequestOptions());
 
-            AssertRequest(HttpMethod.Post, BasePath);
+            AssertRequest(HttpMethod.Post, $"{BasePath}/{_customerId}");
             Assert.Equal(expectedResult.ToJson(), result.ToJson());
-        }
-
-        [Fact]
-        public void Create_Error_Invalid_API_Response()
-        {
-            StubRequest(HttpMethod.Post, BasePath, HttpStatusCode.OK, GetInvalidJson());
-
-            var exception = Assert.Throws<GloballyPaidException>(() =>
-               service.Create("41111111111111", "123", GetPaymentInstrument(), GetTestRequestOptions()));
-
-            Assert.Equal(HttpStatusCode.OK, exception.GloballyPaidResponse.StatusCode);
-            Assert.Equal("Exception of type 'GloballyPaid.GloballyPaidException' was thrown.", exception.Message);
-            //Assert.Equal($"Invalid response object from API: \"{GetInvalidJson()}\"", exception.ErrorMessage);
-            Assert.Equal($"{GetInvalidJson()}", exception.GloballyPaidResponse.Content);
-        }
-
-        [Fact]
-        public void Create_Error_Invalid_Status()
-        {
-            StubRequest(HttpMethod.Post, BasePath, HttpStatusCode.BadRequest, GetInvalidStatusError());
-
-            var exception = Assert.Throws<GloballyPaidException>(() =>
-              service.Create("41111111111111", "123", GetPaymentInstrument(), GetTestRequestOptions()));
-
-            Assert.Equal(HttpStatusCode.BadRequest, exception.GloballyPaidResponse.StatusCode);
-            Assert.Equal("Exception of type 'GloballyPaid.GloballyPaidException' was thrown.", exception.Message);
-            Assert.Equal($"{GetInvalidStatusError()}", exception.ErrorMessage);
-            Assert.Equal($"{GetInvalidStatusError()}", exception.GloballyPaidResponse.Content);
         }
 
         [Fact]
@@ -220,11 +192,11 @@ namespace GloballyPaid.Tests
         {
             var expectedResult = GetPaymentInstrument();
 
-            StubRequest(HttpMethod.Put, $"{BasePath}/id", HttpStatusCode.OK, expectedResult.ToJson());
+            StubRequest(HttpMethod.Put, $"{BasePath}/{_customerId}/{_Id}", HttpStatusCode.OK, expectedResult.ToJson());
 
             var result = service.Update(GetPaymentInstrument(), GetTestRequestOptions());
 
-            AssertRequest(HttpMethod.Put, $"{BasePath}/id");
+            AssertRequest(HttpMethod.Put, $"{BasePath}/{_customerId}/{_Id}");
             Assert.Equal(expectedResult.ToJson(), result.ToJson());
         }
 
@@ -233,18 +205,18 @@ namespace GloballyPaid.Tests
         {
             var expectedResult = GetPaymentInstrument();
 
-            StubRequest(HttpMethod.Put, $"{BasePath}/id", HttpStatusCode.OK, expectedResult.ToJson());
+            StubRequest(HttpMethod.Put, $"{BasePath}/{_customerId}/{_Id}", HttpStatusCode.OK, expectedResult.ToJson());
 
             var result = await service.UpdateAsync(GetPaymentInstrument(), GetTestRequestOptions());
 
-            AssertRequest(HttpMethod.Put, $"{BasePath}/id");
+            AssertRequest(HttpMethod.Put, $"{BasePath}/{_customerId}/{_Id}");
             Assert.Equal(expectedResult.ToJson(), result.ToJson());
         }
 
         [Fact]
         public void Update_Error_Invalid_API_Response()
         {
-            StubRequest(HttpMethod.Put, $"{BasePath}/id", HttpStatusCode.OK, GetInvalidJson());
+            StubRequest(HttpMethod.Put, $"{BasePath}/{_customerId}/{_Id}", HttpStatusCode.OK, GetInvalidJson());
 
             var exception = Assert.Throws<GloballyPaidException>(() =>
                service.Update(GetPaymentInstrument(), GetTestRequestOptions()));
@@ -258,7 +230,7 @@ namespace GloballyPaid.Tests
         [Fact]
         public void Update_Error_Invalid_Status()
         {
-            StubRequest(HttpMethod.Put, $"{BasePath}/id", HttpStatusCode.BadRequest, GetInvalidStatusError());
+            StubRequest(HttpMethod.Put, $"{BasePath}/{_customerId}/{_Id}", HttpStatusCode.BadRequest, GetInvalidStatusError());
 
             var exception = Assert.Throws<GloballyPaidException>(() =>
               service.Update(GetPaymentInstrument(), GetTestRequestOptions()));
@@ -272,21 +244,21 @@ namespace GloballyPaid.Tests
         [Fact]
         public void Delete()
         {
-            StubRequest(HttpMethod.Delete, $"{BasePath}/id", HttpStatusCode.OK, string.Empty);
+            StubRequest(HttpMethod.Delete, $"{BasePath}/{_customerId}/{_Id}", HttpStatusCode.OK, string.Empty);
 
-            service.Delete("id", GetTestRequestOptions());
+            service.Delete(_Id, _customerId, GetTestRequestOptions());
 
-            AssertRequest(HttpMethod.Delete, $"{BasePath}/id");
+            AssertRequest(HttpMethod.Delete, $"{BasePath}/{_customerId}/{_Id}");
         }
 
         [Fact]
         public async Task Delete_Async()
         {
-            StubRequest(HttpMethod.Delete, $"{BasePath}/id", HttpStatusCode.OK, string.Empty);
+            StubRequest(HttpMethod.Delete, $"{BasePath}/{_customerId}/{_Id}", HttpStatusCode.OK, string.Empty);
 
-            await service.DeleteAsync("id", GetTestRequestOptions());
+            await service.DeleteAsync(_Id, _customerId, GetTestRequestOptions());
 
-            AssertRequest(HttpMethod.Delete, $"{BasePath}/id");
+            AssertRequest(HttpMethod.Delete, $"{BasePath}/{_customerId}/{_Id}");
         }
     }
 }

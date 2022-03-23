@@ -1,72 +1,59 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
+using GloballyPaid.Interface;
 
 namespace GloballyPaid
 {
-    public class PaymentInstrument : Entity
+    public abstract class PaymentInstrument : IPaymentInstrument
     {
-        [JsonProperty("id")]
+
+        [JsonProperty("id", Order = -2)]
         public string Id { get; set; }
 
-        [JsonProperty("type")]
+        [JsonProperty("type", Order = -1, Required = Required.Always)]
         [JsonConverter(typeof(StringEnumConverter))]
-        public PaymentType Type { get; set; }
+        public PaymentSourceType Type { get; set; }
 
-        [JsonProperty("customer_id")]
-        public string CustomerId { get; set; }
+        /*
+         * The ClientId and AccountNumberHash comprise an index
+         * in the DynamoDB table
+         *
+         */
 
-        [JsonProperty("client_customer_id")]
-        public string ClientCustomerId { get; set; }
+        /// <summary>
+        /// The company Id for the payment method.
+        /// The company application never needs to submit this.
+        /// It is resolved based on their API credentials, or
+        /// the JWT when submitted via JS SDK
+        /// </summary>
+        [JsonProperty("client_id", Order = -1)]
+        public abstract string ClientId { get; set; }
 
-        [JsonProperty("brand")]
-        public string Brand { get; set; }
+        /// <summary>
+        /// The unique identifier for the customer
+        /// </summary>
+        [JsonProperty("customer_id", Order = 2)]
+        public abstract string CustomerId { get; set; }
 
-        [JsonProperty("last_four")]
-        public string LastFour { get; set; }
+        /// <summary>
+        /// The unique identifier for the customer
+        /// </summary>
+        [JsonProperty("client_customer_id", Order = 3)]
+        public abstract string ClientCustomerId { get; set; }
 
-        [JsonProperty("expiration")]
-        public string Expiration { get; set; }
+        /// <summary>
+        /// The billing contact info for the PaymentInstrument
+        /// </summary>
+        public abstract BillingContact BillingContact { get; set; }
 
-        [JsonProperty("billing_contact")]
-        public Contact BillingContact { get; set; }
+        public abstract string Data { get; set; }
 
-        [JsonProperty("created")]
-        public DateTime Created { get; set; }
+        public abstract DateTime Created { get; set; }
 
-        [JsonProperty("updated")]
-        public DateTime Updated { get; set; }
+        public abstract DateTime Updated { get; set; }
 
-        internal PaymentInstrumentRequest ToRequest(string creditCardNumber, string creditCardCvv)
-        {
-            return new PaymentInstrumentRequest
-            {
-                Id = Id,
-                Type = Type,
-                CustomerId = CustomerId,
-                ClientCustomerId = ClientCustomerId,
-                BillingContact = BillingContact,
-                CreditCard = new CreditCard
-                {
-                    Brand = Brand,
-                    LastFour = LastFour,
-                    Expiration = Expiration,
-                    Number = creditCardNumber,
-                    Cvv = creditCardCvv
-                }
-            };
-        }
-
-        internal UpdatePaymentInstrumentRequest ToUpdateRequest()
-        {
-            return new UpdatePaymentInstrumentRequest
-            {
-                Id = Id,
-                Type = Type,
-                CustomerId = CustomerId,
-                ClientCustomerId = ClientCustomerId,
-                BillingContact = BillingContact,
-            };
-        }
+        public abstract string OriginalNetworkTransactionIdentifier { get; set; }
+        
     }
 }

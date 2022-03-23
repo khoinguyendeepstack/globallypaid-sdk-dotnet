@@ -13,7 +13,7 @@ namespace GloballyPaid
 
         public CustomerService(HttpServiceClient client) : base(client) { }
 
-        protected override string BasePath => $"api/v1/customer";
+        protected override string BasePath => $"api/v1/vault/customer";
 
         /// <summary>
         /// Sends a request to Globally Paid API to get all customers

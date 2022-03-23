@@ -7,7 +7,7 @@ namespace GloballyPaid.Tests
 {
     public class ChargeServiceTest : BaseTest
     {
-        private const string BasePath = "/api/v1/charge";
+        private const string BasePath = "/api/v1/payments/charge";
 
         private readonly ChargeService service;
 
@@ -97,53 +97,6 @@ namespace GloballyPaid.Tests
         }
 
         [Fact]
-        public void Charge_Without_Token()
-        {
-            var expectedTokenizeResult = GetPaymentInstrument();
-            StubRequest(HttpMethod.Post, "/api/v1/token", HttpStatusCode.OK, expectedTokenizeResult.ToJson());
-
-            var expectedResult = GetCharge(savePaymentInstrument: true);
-
-            StubRequest(HttpMethod.Post, BasePath, HttpStatusCode.OK, expectedResult.ToJson());
-
-            var result = service.Charge(GetPaymentInstrumentRequest(), 1299, GetTestRequestOptions());
-
-            AssertRequest(HttpMethod.Post, BasePath);
-            Assert.Equal(expectedResult.ToJson(), result.ToJson());
-        }
-
-        [Fact]
-        public async Task Charge_Async_Without_Token()
-        {
-            var expectedTokenizeResult = GetPaymentInstrument();
-            StubRequest(HttpMethod.Post, "/api/v1/token", HttpStatusCode.OK, expectedTokenizeResult.ToJson());
-
-            var expectedResult = GetCharge(savePaymentInstrument: true);
-
-            StubRequest(HttpMethod.Post, BasePath, HttpStatusCode.OK, expectedResult.ToJson());
-
-            var result = await service.ChargeAsync(GetPaymentInstrumentRequest(), 1299, GetTestRequestOptions());
-
-            AssertRequest(HttpMethod.Post, BasePath);
-            Assert.Equal(expectedResult.ToJson(), result.ToJson());
-        }
-
-        [Fact]
-        public void Charge_Error_Invalid_ResponseCode()
-        {
-            var expectedResult = GetChargeWithInvalidResponseCode();
-
-            StubRequest(HttpMethod.Post, BasePath, HttpStatusCode.OK, expectedResult.ToJson());
-
-            var exception = Assert.Throws<GloballyPaidException>(() =>
-                service.Charge(GetChargeRequest(), GetTestRequestOptions()));
-
-            Assert.Equal(HttpStatusCode.BadRequest, exception.HttpStatusCode);
-            Assert.Equal("Exception of type 'GloballyPaid.GloballyPaidException' was thrown.", exception.Message);
-            Assert.Equal("Not Approved", exception.ErrorMessage);
-        }
-
-        [Fact]
         public void Charge_Error_Invalid_API_Response()
         {
             StubRequest(HttpMethod.Post, BasePath, HttpStatusCode.OK, GetInvalidJson());
@@ -175,31 +128,93 @@ namespace GloballyPaid.Tests
         {
             return new ChargeRequest
             {
-                Source = "token_id",
-                Amount = 1299,
-                Capture = capture
+                Source = new PaymentSourceCardOnFile()
+                {
+                    Type = PaymentSourceType.CARD_ON_FILE,
+                    CardOnFile = new CardOnFile()
+                    {
+                        Id = "token_id",
+                        CVV = "" // optional
+                    }
+                    
+                },
+                Params = new TransactionParameters()
+                {
+                    Amount = 1299,
+                    Capture = true
+                }
             };
         }
 
-        private Charge GetCharge(bool captured = true, bool savePaymentInstrument = false)
+        private ChargeResponse GetCharge(bool captured = true, bool savePaymentInstrument = false)
         {
-            return new Charge
+            return new ChargeResponse()
             {
-                Id = "id",
-                Amount =1299,
+                ID = "id",
+                Source = new PaymentInstrumentCardOnFile()
+                { 
+                    Type = PaymentSourceType.CARD_ON_FILE,
+                    Id = "id"
+                },
+                Amount = 1299,
                 ResponseCode = "00",
                 Message = "charged",
                 Approved = true,
                 Captured = captured,
-                NewPaymentInstrument = savePaymentInstrument ? GetPaymentInstrument() : null
+                NewPaymentInstrument = savePaymentInstrument ? GetPaymentInstrument() : null,
+                Checks = new Checks()
+                {
+                    CvcCheck = "Y",
+                    AddressLine1Check = "Y",
+                    AddressPostalCodeCheck = "Y"
+                },
+                Response = "",
+                AuthCode = "df23412",
+                BillingContact = new BillingContact()
+                {
+                    Address = new Address()
+                    {
+                        Line1 = "1234 Some St",
+                        City = "Anywhere",
+                        State = "CA",
+                        PostalCode = "12345",
+                        CountryCode = ISO3166CountryCode.USA
+                    },
+                    Email = "jdoe@example.com",
+                    Phone = "7145551212",
+                    FirstName = "John",
+                    LastName = "Doe"
+                },
+                CofType = CofType.UNSCHEDULED_CARDHOLDER,
+                CountryCode = ISO3166CountryCode.USA,
+                CurrencyCode = CurrencyCode.USD,
+                ShippingContact = new ShippingContact()
+                {
+                    Address = new Address()
+                    {
+                        Line1 = "1234 Some St",
+                        City = "Anywhere",
+                        State = "CA",
+                        PostalCode = "12345",
+                        CountryCode = ISO3166CountryCode.USA
+                    },
+                    Email = "jdoe@example.com",
+                    Phone = "7145551212",
+                    FirstName = "John",
+                    LastName = "Doe"
+                },
+                ClientTransactionDescription = "E-comm order",
+                SavePaymentInstrument = true,
+                ClientInvoiceID = "US-INV-1234512",
+                ClientTransactionID = "asdf-qwueia-asf12351w"
             };
         }
 
-        private Charge GetChargeWithInvalidResponseCode()
+        private ChargeResponse GetChargeWithInvalidResponseCode()
         {
-            return new Charge
+            return new ChargeResponse()
             {
-                Id = "id",
+                ID = "id",
                 Amount = 1299,
                 ResponseCode = "02",
                 Message = "Not Approved"

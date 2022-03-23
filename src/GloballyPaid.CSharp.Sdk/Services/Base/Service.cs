@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Headers;
+﻿using System;
+using System.Net.Http.Headers;
 
 namespace GloballyPaid
 {
@@ -36,7 +37,12 @@ namespace GloballyPaid
             var sharedSecret = requestOptions?.SharedSecret ?? GloballyPaidConfiguration.SharedSecret;
             var appId = requestOptions?.AppId ?? GloballyPaidConfiguration.AppId;
             
-            Client.Headers.Add(HMAC, request.CreateHMAC(sharedSecret, appId));
+            var authenticationString = $"{appId}:{sharedSecret}";
+            var base64EncodedAuthenticationString = Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(authenticationString));
+
+
+            Client.AuthorizationHeader = new AuthenticationHeaderValue("Basic", base64EncodedAuthenticationString);
+            // Client.Headers.Add(HMAC, request.CreateHMAC(sharedSecret, appId));
         }
 
         protected void TryReconfigureClient(RequestOptions requestOptions = null)

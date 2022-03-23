@@ -8,7 +8,7 @@ namespace GloballyPaid
     /// </summary>
     public class ChargeService : Service, IChargeService
     {
-        protected override string BasePath => $"api/v1/charge";
+        protected override string BasePath => $"api/v1/payments/charge";
         private readonly TokenService tokenService;
 
         public ChargeService()
@@ -28,75 +28,29 @@ namespace GloballyPaid
         }
 
         /// <summary>
-        /// Sends a request to Globally Paid API to charge credit or debit card that is previous tokenized
+        /// Sends a request to Globally Paid API to charge credit or debit card that was previously tokenized
         /// </summary>
         /// <param name="request">A <see cref="ChargeRequest"/> request object</param>
         /// <param name="requestOptions">Used to reconfigure Globally Paid SDK setting for this particular call</param>
         /// <returns>A <see cref="Charge"/> entity</returns>
-        public Charge Charge(ChargeRequest request, RequestOptions requestOptions = null)
+        public ChargeResponse Charge(ChargeRequest request, RequestOptions requestOptions = null)
         {
             TryReconfigureClient(request, requestOptions);
-            return Client.Post<ChargeRequest, Charge>(BasePath, request, checkResponseCode: true);
+            return Client.Post<ChargeRequest, ChargeResponse>(BasePath, request, checkResponseCode: true);
         }
 
         /// <summary>
-        /// Sends a request to Globally Paid API to charge credit or debit card that is previous tokenized, as an asynchronous operation
+        /// Sends a request to Globally Paid API to charge credit or debit card that was previously tokenized, as an asynchronous operation
         /// </summary>
         /// <param name="request">A <see cref="ChargeRequest"/> request object</param>
         /// <param name="requestOptions">Used to reconfigure Globally Paid SDK setting for this particular call</param>
         /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>A <see cref="Charge"/> Task entity, representing the asynchronous operation</returns>
-        public async Task<Charge> ChargeAsync(ChargeRequest request, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
+        public async Task<ChargeResponse> ChargeAsync(ChargeRequest request, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
         {
             TryReconfigureClient(request, requestOptions);
-            return await Client.PostAsync<ChargeRequest, Charge>(BasePath, request, checkResponseCode: true, cancellationToken);
+            return await Client.PostAsync<ChargeRequest, ChargeResponse>(BasePath, request, checkResponseCode: true, cancellationToken);
         }
 
-        /// <summary>
-        /// Sends a request to Globally Paid API to tokenize and charge credit or debit card
-        /// </summary>
-        /// <param name="paymentInstrumentRequest">A <see cref="PaymentInstrumentRequest"/> request object</param>
-        /// <param name="amount">A non-negative integer representing the smallest unit of the specified currency (example; 499 = $4.99 in USD)</param>
-        /// <param name="requestOptions">Used to reconfigure Globally Paid SDK setting for this particular call</param>
-        /// <returns>A <see cref="Charge"/> entity</returns>
-        public Charge Charge(PaymentInstrumentRequest paymentInstrumentRequest, long amount, RequestOptions requestOptions = null)
-        {
-            var paymentInstrument = tokenService.Tokenize(new TokenizeRequest
-            {
-                PaymentInstrument = paymentInstrumentRequest
-            }, requestOptions);
-
-            return Charge(new ChargeRequest
-            {
-                Source = paymentInstrument.Id,
-                Amount = amount,
-                Capture = true,
-                SavePaymentInstrument = true
-            }, requestOptions);
-        }
-
-        /// <summary>
-        /// Sends a request to Globally Paid API to tokenize and charge credit or debit card, as an asynchronous operation
-        /// </summary>
-        /// <param name="paymentInstrumentRequest">A <see cref="PaymentInstrumentRequest"/> request object</param>
-        /// <param name="amount">A non-negative integer representing the smallest unit of the specified currency (example; 499 = $4.99 in USD)</param>
-        /// <param name="requestOptions">Used to reconfigure Globally Paid SDK setting for this particular call</param>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>A <see cref="Charge"/> Task entity, representing the asynchronous operation</returns>
-        public async Task<Charge> ChargeAsync(PaymentInstrumentRequest paymentInstrumentRequest, long amount, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
-        {
-            var paymentInstrument = await tokenService.TokenizeAsync(new TokenizeRequest
-            {
-                PaymentInstrument = paymentInstrumentRequest
-            }, requestOptions, cancellationToken);
-
-            return await ChargeAsync(new ChargeRequest
-            {
-                Source = paymentInstrument.Id,
-                Amount = amount,
-                Capture = true,
-                SavePaymentInstrument = true
-            }, requestOptions, cancellationToken);
-        }
     }
 }

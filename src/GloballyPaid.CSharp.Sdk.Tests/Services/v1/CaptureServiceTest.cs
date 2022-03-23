@@ -7,7 +7,7 @@ namespace GloballyPaid.Tests
 {
     public class CaptureServiceTest : BaseTest
     {
-        private const string BasePath = "/api/v1/capture";
+        private const string BasePath = "/api/v1/payments/capture";
 
         private readonly CaptureService service;
 

@@ -1,8 +1,12 @@
-﻿namespace GloballyPaid
+using System.Runtime.Serialization;
+
+namespace GloballyPaid
 {
     public enum PaymentType
     {
-        //BankAccount = 0,
-        CreditCard = 1
+        [EnumMember(Value = "credit_card")]
+        CreditCard = 1,
+        [EnumMember(Value = "bank_account")]
+        BankAccount = 2
     }
 }

@@ -7,7 +7,7 @@ namespace GloballyPaid.Tests
 {
     public class TokenServiceTest : BaseTest
     {
-        private const string BasePath = "/api/v1/token";
+        private const string BasePath = "/api/v1/vault/token";
 
         private readonly TokenService service;
 

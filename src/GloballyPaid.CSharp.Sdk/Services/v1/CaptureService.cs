@@ -12,7 +12,7 @@ namespace GloballyPaid
 
         public CaptureService(HttpServiceClient client) : base(client) { }
 
-        protected override string BasePath => $"api/v1/capture";
+        protected override string BasePath => $"api/v1/payments/capture";
 
         /// <summary>
         /// Sends a request to Globally Paid API to capture a particular charge

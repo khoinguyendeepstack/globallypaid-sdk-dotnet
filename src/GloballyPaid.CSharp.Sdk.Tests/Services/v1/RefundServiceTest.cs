@@ -7,7 +7,7 @@ namespace GloballyPaid.Tests
 {
     public class RefundServiceTest : BaseTest
     {
-        private const string BasePath = "/api/v1/refund";
+        private const string BasePath = "/api/v1/payments/refund";
 
         private readonly RefundService service;
 

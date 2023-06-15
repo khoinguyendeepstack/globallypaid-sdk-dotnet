@@ -40,12 +40,12 @@ namespace DeepStack.Extensions
         {
             if (string.IsNullOrEmpty(sharedSecret))
             {
-                throw new DeepStackException("Your Globally Paid Shared Secret is not configured");
+                throw new DeepStackException("Your DeepStack Shared Secret is not configured");
             }
 
             if (string.IsNullOrEmpty(appId))
             {
-                throw new DeepStackException("Your Globally Paid APP ID is not configured");
+                throw new DeepStackException("Your DeepStack APP ID is not configured");
             }
 
             return HmacUtility.CreateHmacHeader(obj.ToJson(), sharedSecret, appId);

@@ -63,11 +63,11 @@ namespace DeepStack.Extensions
         /// False if your service calls should go through the Globally Paid API</param>
         /// <param name="requestTimeoutSeconds"> The request timeout (in seconds) of all Globally Paid Sandbox API service calls. Default is 30 seconds. </param>
         /// <returns>An <see cref="IServiceCollection"/> services collection, with configured Globally Paid SDK settings and all Globally Paid services registered. </returns>
-        public static IServiceCollection AddGloballyPaid(this IServiceCollection services, string publishableApiKey, string sharedSecret, string appId, bool? useSandbox = null, int? requestTimeoutSeconds = null)
+        public static IServiceCollection AddDeepStack(this IServiceCollection services, string publishableApiKey, string sharedSecret, string appId, bool? useSandbox = null, int? requestTimeoutSeconds = null)
         {
             DeepStackConfiguration.Setup(publishableApiKey, sharedSecret, appId, useSandbox, requestTimeoutSeconds);
 
-            return AddGloballyPaidServices(services);
+            return AddDeepStack(services);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace DeepStack.Extensions
         /// </summary>
         /// <param name="services">the <see cref="IServiceCollection"/> services</param>
         /// <returns>An <see cref="IServiceCollection"/> services collection, with all Globally Paid services registered. </returns>
-        public static IServiceCollection AddGloballyPaidServices(this IServiceCollection services)
+        public static IServiceCollection AddDeepStack(this IServiceCollection services)
         {
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IChargeService, ChargeService>();

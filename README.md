@@ -1,12 +1,13 @@
-# Globally Paid .NET SDK
+# Deepstack .NET SDK
 
 [![NuGet](https://img.shields.io/nuget/v/globallypaid.net.svg)](https://www.nuget.org/packages/GloballyPaid.net/)
 ![CI](https://github.com/globallypaid/globallypaid-sdk-dotnet/workflows/CI/badge.svg)
 
-The official [Globally Paid][gp] .NET library
+The official Deepstack .NET library
 
 Supporting [.NET Standard 2.0][netstandard]
 
+// Update installing after fixing deployment for deepstack...
 
 ## Installation
 
@@ -67,18 +68,18 @@ To register the Globally Paid services only, `AddGloballyPaidServices` extension
 services.AddGloballyPaidServices();
 ```
 
-##### 2. GloballyPaidConfiguration object
+##### 2. DeepStackConfiguration object
 
 All SDK calls can be configured using the static `GloballyPaidConfiguration` object:
 
 ```c#
-GloballyPaidConfiguration.PublishableApiKey = "Your Publishable API Key";
-GloballyPaidConfiguration.SharedSecret = "Your Shared Secret";
-GloballyPaidConfiguration.AppId = "Your APP ID";
-GloballyPaidConfiguration.UseSandbox = false; //true if you need to test through Globally Paid sandbox
-GloballyPaidConfiguration.RequestTimeoutSeconds = 90;
+DeepStackConfiguration.PublishableApiKey = "Your Publishable API Key";
+DeepStackConfiguration.SharedSecret = "Your Shared Secret";
+DeepStackConfiguration.AppId = "Your APP ID";
+DeepStackConfiguration.UseSandbox = false; //true if you need to test through Globally Paid sandbox
+DeepStackConfiguration.RequestTimeoutSeconds = 90;
 ```
-Or using the `GloballyPaidConfiguration` *Setup* method:
+Or using the `DeepStackConfiguration` *Setup* method:
 
 ```c#
 GloballyPaidConfiguration.Setup("Your Publishable API Key", "Your Shared Secret", "Your APP ID", useSandbox: false, requestTimeoutSeconds: 90);
@@ -90,11 +91,11 @@ All SDK calls can be configured using the `<appSettings>` section in configurati
 
 ```xml
 <appSettings>
-    <add key="GloballyPaidPublishableApiKey" value="Your Publishable API Key"></add>
-    <add key="GloballyPaidSharedSecret" value="Your Shared Secret"></add>
-    <add key="GloballyPaidAppId" value="Your APP ID"></add>
-    <add key="GloballyPaidUseSandbox" value="false"></add> <!--true if you need to test through Globally Paid sandbox-->
-    <add key="GloballyPaidRequestTimeoutSeconds" value="90"></add>
+    <add key="DeepStackPublishableApiKey" value="Your Publishable API Key"></add>
+    <add key="DeepStackSharedSecret" value="Your Shared Secret"></add>
+    <add key="DeepStackAppId" value="Your APP ID"></add>
+    <add key="DeepStackUseSandbox" value="false"></add> <!--true if you need to test through Globally Paid sandbox-->
+    <add key="DeepStackRequestTimeoutSeconds" value="90"></add>
 </appSettings>
 ```
 

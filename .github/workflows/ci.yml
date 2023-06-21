@@ -16,20 +16,20 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.301
+        dotnet-version: 6.0
     - name: Install dependencies
       working-directory: ./src
       run: dotnet restore
     - name: Build
-      working-directory: ./src
+      working-directory: ./src/DeepStack.CSharp.Sdk
       run: dotnet build -c Release --no-restore
     - name: Test
-      working-directory: ./src
+      working-directory: ./src/DeepStack.CSharp.Sdk.Tests
       run: dotnet test --no-restore --verbosity normal
-    - name: Pack
-      working-directory: ./src/GloballyPaid.CSharp.Sdk
-      run: dotnet pack -c Release -p:PackageVersion=1.0.0.$GITHUB_RUN_NUMBER
-    - uses: actions/upload-artifact@v2
-      with:
-        name: globallypaid-sdk-dotnet.1.0.0.${{ github.run_number }}.nupkg
-        path: ./src/GloballyPaid.CSharp.Sdk/bin/Release/*.nupkg
+    # - name: Pack
+    #   working-directory: ./src/DeepStack.CSharp.Sdk
+    #   run: dotnet pack -c Release -p:PackageVersion=1.0.1.$GITHUB_RUN_NUMBER
+    # - uses: actions/upload-artifact@v2
+    #   with:
+    #     name: deepstack-sdk-dotnet.1.0.1.${{ github.run_number }}.nupkg
+    #     path: ./src/DeepStack.CSharp.Sdk/bin/Release/*.nupkg

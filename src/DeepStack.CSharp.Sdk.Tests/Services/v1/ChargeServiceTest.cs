@@ -1,9 +1,17 @@
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using DeepStack.Core;
+using DeepStack.Entities;
+using DeepStack.Entities.Common;
+using DeepStack.Entities.Interface;
+using DeepStack.Enums;
+using DeepStack.Extensions;
+using DeepStack.Requests;
+using DeepStack.Services.v1;
 using Xunit;
 
-namespace GloballyPaid.Tests
+namespace DeepStack.Tests
 {
     public class ChargeServiceTest : BaseTest
     {
@@ -101,11 +109,11 @@ namespace GloballyPaid.Tests
         {
             StubRequest(HttpMethod.Post, BasePath, HttpStatusCode.OK, GetInvalidJson());
 
-            var exception = Assert.Throws<GloballyPaidException>(() =>
+            var exception = Assert.Throws<DeepStackException>(() =>
                service.Charge(GetChargeRequest(), GetTestRequestOptions()));
 
             Assert.Equal(HttpStatusCode.OK, exception.GloballyPaidResponse.StatusCode);
-            Assert.Equal("Exception of type 'GloballyPaid.GloballyPaidException' was thrown.", exception.Message);
+            Assert.Equal("Exception of type 'GloballyPaid.DeepStackException' was thrown.", exception.Message);
             //Assert.Equal($"Invalid response object from API: \"{GetInvalidJson()}\"", exception.ErrorMessage);
             Assert.Equal($"{GetInvalidJson()}", exception.GloballyPaidResponse.Content);
         }
@@ -115,11 +123,11 @@ namespace GloballyPaid.Tests
         {
             StubRequest(HttpMethod.Post, BasePath, HttpStatusCode.BadRequest, GetInvalidStatusError());
 
-            var exception = Assert.Throws<GloballyPaidException>(() =>
+            var exception = Assert.Throws<DeepStackException>(() =>
                service.Charge(GetChargeRequest(), GetTestRequestOptions()));
 
             Assert.Equal(HttpStatusCode.BadRequest, exception.GloballyPaidResponse.StatusCode);
-            Assert.Equal("Exception of type 'GloballyPaid.GloballyPaidException' was thrown.", exception.Message);
+            Assert.Equal("Exception of type 'GloballyPaid.DeepStackException' was thrown.", exception.Message);
             Assert.Equal($"{GetInvalidStatusError()}", exception.ErrorMessage);
             Assert.Equal($"{GetInvalidStatusError()}", exception.GloballyPaidResponse.Content);
         }
@@ -155,7 +163,7 @@ namespace GloballyPaid.Tests
                 { 
                     Type = PaymentSourceType.CARD_ON_FILE,
                     Id = "id"
-                },
+                }
                 Amount = 1299,
                 ResponseCode = "00",
                 Message = "charged",

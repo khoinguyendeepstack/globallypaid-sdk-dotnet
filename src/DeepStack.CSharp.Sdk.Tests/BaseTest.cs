@@ -1,9 +1,15 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using DeepStack.Core;
+using DeepStack.Entities;
+using DeepStack.Entities.Common;
+using DeepStack.Enums;
+using DeepStack.Requests;
+using DeepStack.Requests.Base;
 using Xunit;
 
-namespace GloballyPaid.Tests
+namespace DeepStack.Tests
 {
     [Collection("Globally Paid SDK tests")]
     public class BaseTest

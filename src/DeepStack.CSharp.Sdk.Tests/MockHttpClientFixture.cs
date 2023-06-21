@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GloballyPaid.Tests
+namespace DeepStack.Tests
 {
     public class MockHttpClientFixture
     {

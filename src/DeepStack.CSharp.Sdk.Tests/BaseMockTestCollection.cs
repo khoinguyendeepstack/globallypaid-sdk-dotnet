@@ -2,7 +2,7 @@
 using System.Net.Http;
 using Xunit;
 
-namespace GloballyPaid.Tests
+namespace DeepStack.Tests
 {
     [CollectionDefinition("Globally Paid SDK tests")]
     public class BaseMockTestCollection :

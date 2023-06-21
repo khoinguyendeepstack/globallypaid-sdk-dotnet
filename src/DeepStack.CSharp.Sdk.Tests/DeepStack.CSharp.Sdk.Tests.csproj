@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
 
@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GloballyPaid.CSharp.Sdk\GloballyPaid.CSharp.Sdk.csproj" />
+    <ProjectReference Include="..\DeepStack.CSharp.Sdk\DeepStack.CSharp.Sdk.csproj" />
   </ItemGroup>
 
 </Project>

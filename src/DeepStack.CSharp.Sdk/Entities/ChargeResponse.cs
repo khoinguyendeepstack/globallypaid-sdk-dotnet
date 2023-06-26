@@ -10,11 +10,26 @@ namespace DeepStack.Entities
 {
     public class ChargeResponse
     {
+        
+        [JsonProperty("id")]
+        [Description("Charge transaction ID with successful charge request")]
         public string ID { get; set; }
+        
+        [JsonProperty("response_code")]
+        [Description("Deepstack response code")]
         public string ResponseCode { get; set; }
+        
+        [JsonProperty("message")]
+        [Description("Response message associated with response code")]
         public string Message { get; set; }
         public string Response { get; set; }
+        
+        [JsonProperty("approved")]
+        [Description("Approved flag")]
         public bool Approved { get; set; }
+        
+        [JsonProperty("auth_code")]
+        [Description("Authorization code from Deepstack backend processor")]
         public string AuthCode { get; set; }
         
         [JsonProperty("source")]

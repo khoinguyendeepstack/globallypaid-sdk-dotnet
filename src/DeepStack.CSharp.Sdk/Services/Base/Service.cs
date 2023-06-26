@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http.Headers;
 using DeepStack.Core;
+using DeepStack.Extensions;
 using DeepStack.Requests.Base;
 
 namespace DeepStack.Services.Base
@@ -30,8 +31,10 @@ namespace DeepStack.Services.Base
 
         protected abstract string BasePath { get; }
 
-        protected void TryReconfigureClient(object request, RequestOptions requestOptions = null)
+        protected void TryReconfigureClient(object request, RequestOptions requestOptions = null, string requestMethod = "POST")
         {
+            // By default this will send the publishable key in requests... can manually remove this
+            // But no harm in sending it here
             TryReconfigureClient(requestOptions);
 
             Client.Headers.Remove(HMAC);
@@ -43,8 +46,12 @@ namespace DeepStack.Services.Base
             var base64EncodedAuthenticationString = Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(authenticationString));
 
 
-            Client.AuthorizationHeader = new AuthenticationHeaderValue("Basic", base64EncodedAuthenticationString);
-            // Client.Headers.Add(HMAC, request.CreateHMAC(sharedSecret, appId));
+            //Don't want to send this anymore if HMAC is re-enabled
+            // Client.AuthorizationHeader = new AuthenticationHeaderValue("Basic", base64EncodedAuthenticationString);
+            
+            // Send hmac in 'hmac' header
+            // Assume request is a post unless specified.. if it's not a post, default will fail anyways
+            Client.Headers.Add(HMAC, request.CreateHMAC(sharedSecret, appId, requestMethod));
         }
 
         protected void TryReconfigureClient(RequestOptions requestOptions = null)

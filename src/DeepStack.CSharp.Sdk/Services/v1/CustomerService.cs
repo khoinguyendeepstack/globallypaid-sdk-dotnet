@@ -101,7 +101,7 @@ namespace DeepStack.Services.v1
         /// <returns>A <see cref="Customer"/> entity</returns>
         public Customer Update(Customer customer, RequestOptions requestOptions = null)
         {
-            TryReconfigureClient(customer, requestOptions);
+            TryReconfigureClient(customer, requestOptions, "PUT");
             return Client.Put<Customer, Customer>($"{BasePath}/{customer.Id}", customer);
         }
 
@@ -114,7 +114,7 @@ namespace DeepStack.Services.v1
         /// <returns>A <see cref="Customer"/> Task entity, representing the asynchronous operation</returns>
         public async Task<Customer> UpdateAsync(Customer customer, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
         {
-            TryReconfigureClient(customer, requestOptions);
+            TryReconfigureClient(customer, requestOptions, "PUT");
             return await Client.PutAsync<Customer, Customer>($"{BasePath}/{customer.Id}", customer, checkResponseCode: false, cancellationToken);
         }
 
@@ -125,7 +125,7 @@ namespace DeepStack.Services.v1
         /// <param name="requestOptions">Used to reconfigure Globally Paid SDK setting for this particular call</param>
         public void Delete(string id, RequestOptions requestOptions = null)
         {
-            TryReconfigureClient(string.Empty, requestOptions);
+            TryReconfigureClient(string.Empty, requestOptions, "DELETE");
             Client.Delete($"{BasePath}/{id}");
         }
 
@@ -137,7 +137,7 @@ namespace DeepStack.Services.v1
         /// <returns>A Task entity, representing the asynchronous operation</returns>
         public async Task DeleteAsync(string id, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
         {
-            TryReconfigureClient(string.Empty, requestOptions);
+            TryReconfigureClient(string.Empty, requestOptions, "DELETE");
             await Client.DeleteAsync($"{BasePath}/{id}", cancellationToken);
         }
     }

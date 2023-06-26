@@ -36,7 +36,7 @@ namespace DeepStack.Extensions
         /// <param name="sharedSecret">The Globally Paid Shared Secret</param>
         /// <param name="appId">The Globally Paid APP ID</param>
         /// <returns>The generated HMACSHA256 hash</returns>
-        public static string CreateHMAC(this object obj, string sharedSecret, string appId)
+        public static string CreateHMAC(this object obj, string sharedSecret, string appId, string requestMethod)
         {
             if (string.IsNullOrEmpty(sharedSecret))
             {
@@ -48,7 +48,7 @@ namespace DeepStack.Extensions
                 throw new DeepStackException("Your DeepStack APP ID is not configured");
             }
 
-            return HmacUtility.CreateHmacHeader(obj.ToJson(), sharedSecret, appId);
+            return HmacUtility.CreateHmacHeader(obj.ToJson(), sharedSecret, appId, requestMethod);
         }
 
         /// <summary>

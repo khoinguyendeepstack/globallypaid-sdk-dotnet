@@ -16,11 +16,13 @@ namespace DeepStack.Core
         /// <param name="sharedSecret">The Globally Paid Shared Secret</param>
         /// <param name="appId">The Globally Paid APP ID</param>
         /// <returns></returns>
-        public static string CreateHmacHeader(string message, string sharedSecret, string appId)
+        public static string CreateHmacHeader(string message, string sharedSecret, string appId, string requestMethod)
         {
             var guid = Guid.NewGuid();
-            var hashInBase64 = GenerateHMACSHA256Hash(message, sharedSecret);
-            var hmac = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{appId}:POST:{guid}:{hashInBase64}"));
+            var requestTime = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+            var stringToHash = $"{appId}|{requestMethod}|{requestTime}|{guid}|{message}";
+            var hashInBase64 = GenerateHMACSHA256Hash(stringToHash, sharedSecret);
+            var hmac = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{appId}|{requestMethod}|{requestTime}|{guid}|{hashInBase64}"));
             return hmac;
         }
 

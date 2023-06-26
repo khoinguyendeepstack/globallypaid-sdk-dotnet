@@ -148,7 +148,7 @@ namespace DeepStack.Services.v1
         /// <returns>A <see cref="IPaymentInstrument"/> entity</returns>
         public IPaymentInstrument Update(IPaymentInstrument paymentInstrument, RequestOptions requestOptions = null)
         {
-            TryReconfigureClient(paymentInstrument, requestOptions);
+            TryReconfigureClient(paymentInstrument, requestOptions, "PUT");
             return Client.Put<IPaymentInstrument, IPaymentInstrument>($"{BasePath}/{paymentInstrument.CustomerId}/{paymentInstrument.Id}", paymentInstrument);
         }
 
@@ -161,7 +161,7 @@ namespace DeepStack.Services.v1
         /// <returns>A <see cref="IPaymentInstrument"/> Task entity, representing the asynchronous operation</returns>
         public async Task<IPaymentInstrument> UpdateAsync(IPaymentInstrument paymentInstrument, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
         {
-            TryReconfigureClient(paymentInstrument, requestOptions);
+            TryReconfigureClient(paymentInstrument, requestOptions, "PUT");
             return await Client.PutAsync<IPaymentInstrument, IPaymentInstrument>($"{BasePath}/{paymentInstrument.CustomerId}/{paymentInstrument.Id}", paymentInstrument, checkResponseCode: false, cancellationToken);
         }
 
@@ -172,7 +172,7 @@ namespace DeepStack.Services.v1
         /// <param name="requestOptions">Used to reconfigure Globally Paid SDK setting for this particular call</param>
         public bool Delete(string id, string customerId = "deprecated", RequestOptions requestOptions = null)
         {
-            TryReconfigureClient(string.Empty, requestOptions);
+            TryReconfigureClient(string.Empty, requestOptions, "DELETE");
             return Client.Delete($"{BasePath}/{customerId}/{id}");
         }
 
@@ -185,7 +185,7 @@ namespace DeepStack.Services.v1
         /// <returns>A Task entity, representing the asynchronous operation</returns>
         public async Task DeleteAsync(string id, string customerId = "deprecated", RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
         {
-            TryReconfigureClient(string.Empty, requestOptions);
+            TryReconfigureClient(string.Empty, requestOptions, "DELETE");
             await Client.DeleteAsync($"{BasePath}/{customerId}/{id}", cancellationToken);
         }
     }

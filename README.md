@@ -11,22 +11,27 @@ Supporting [.NET Standard 2.0][netstandard]
 
 ## Installation
 
+## Installation Notice
+
+Until further notice, the current installation methods will not work since the deployments are not synced. This will be changed soon, but for now, all SDK installations should be done through the Deepstack Github.
+
+
 Using the [.NET Core CLI tools][dotnet-core-cli-tools]:
 
 ```sh
-dotnet add package GloballyPaid.net
+dotnet add package DeepStack.net
 ```
 
 Using the [NuGet CLI][nuget-cli]:
 
 ```sh
-nuget install GloballyPaid.net
+nuget install DeepStack.net
 ```
 
 Using the [Package Manager Console][package-manager-console]:
 
 ```powershell
-Install-Package GloballyPaid.net
+Install-Package DeepStack.net
 ```
 
 From within Visual Studio:
@@ -35,13 +40,13 @@ From within Visual Studio:
 2. Right-click on a project within your solution
 3. Click on *Manage NuGet Packages*
 4. Click on the *Browse* tab and search for **GloballyPaid.net**
-5. Click on the **GloballyPaid.net** package, select version in the
+5. Click on the **DeepStack.net** package, select version in the
    right-tab 
 6. Click *Install*
 
 ## Documentation
 
-For the Globally Paid API documentation, please visit [Globally Paid API documentation][gp-api-docs] 
+For the Deepstack API documentation, please visit [Deepstack API documentation][gp-api-docs] 
 
 ## Samples
 
@@ -56,21 +61,21 @@ There are three ways to configure the Globally Paid SDK:
 ##### 1. Startup Extension
 
 All SDK calls can be configured within `ConfigureServices` method in `Startup` class using the `AddGloballyPaid` extension.
-Additionally, this extension call will register all Globally Paid services:
+Additionally, this extension call will register all Deepstack services:
 
 ```c#
 services.AddGloballyPaid("Your Publishable API Key", "Your Shared Secret", "Your APP ID", useSandbox: false, requestTimeoutSeconds: 90);
 ```
 
-To register the Globally Paid services only, `AddGloballyPaidServices` extension can be used:
+To register the Deepstack services only, `AddDeepStackServices` extension can be used:
 
 ```c#
-services.AddGloballyPaidServices();
+services.AddDeepStackServices();
 ```
 
 ##### 2. DeepStackConfiguration object
 
-All SDK calls can be configured using the static `GloballyPaidConfiguration` object:
+All SDK calls can be configured using the static `DeepStackConfiguration` object:
 
 ```c#
 DeepStackConfiguration.PublishableApiKey = "Your Publishable API Key";
@@ -82,7 +87,7 @@ DeepStackConfiguration.RequestTimeoutSeconds = 90;
 Or using the `DeepStackConfiguration` *Setup* method:
 
 ```c#
-GloballyPaidConfiguration.Setup("Your Publishable API Key", "Your Shared Secret", "Your APP ID", useSandbox: false, requestTimeoutSeconds: 90);
+DeepStackConfiguration.Setup("Your Publishable API Key", "Your Shared Secret", "Your APP ID", useSandbox: false, requestTimeoutSeconds: 90);
 ```
 
 ##### 3. The `<appSettings>` section
@@ -120,7 +125,7 @@ var request = new ChargeRequest
                 ClientTransactionDescription = "Tuition for CS" //set your transaction description
             };
 
-//if Globally Paid services are registered, you can inject this as IChargeService in the constructor
+//if Deepstack services are registered, you can inject this as IChargeService in the constructor
 var chargeService = new ChargeService(); 
 var charge = chargeService.Charge(request);
 ```
@@ -129,8 +134,8 @@ var charge = chargeService.Charge(request);
 For any feedback or bug/enhancement report, please [open an issue][issues] or [submit a
 pull request][pulls].
 
-[gp]: https://globallypaid.com/
-[gp-api-docs]: https://docs.globallypaid.com/?c#
+[gp]: https://www.deepstack.io/
+[gp-api-docs]: https://qa-v2.docs.globallypaid.com/
 [gp-dotnet-samples]: https://github.com/globallypaid/globallypaid-sdk-dotnet-samples
 [netstandard]: https://github.com/dotnet/standard/blob/master/docs/versions.md
 [dotnet-core-cli-tools]: https://docs.microsoft.com/en-us/dotnet/core/tools/

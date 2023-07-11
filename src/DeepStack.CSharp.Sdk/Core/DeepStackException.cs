@@ -20,11 +20,11 @@ namespace DeepStack.Core
         {
         }
 
-        public DeepStackException(HttpStatusCode httpStatusCode, string errorMessage, HttpServiceClientResponse globallyPaidResponse)
+        public DeepStackException(HttpStatusCode httpStatusCode, string errorMessage, HttpServiceClientResponse deepStackResponse)
         {
             HttpStatusCode = httpStatusCode;
             ErrorMessage = !string.IsNullOrWhiteSpace(errorMessage) ? errorMessage : GetErrorMessageFromStatusCode(httpStatusCode);
-            GloballyPaidResponse = globallyPaidResponse;
+            DeepStackResponse = deepStackResponse;
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace DeepStack.Core
         /// <summary>
         /// The Original response from the Globally Paid API
         /// </summary>
-        public HttpServiceClientResponse GloballyPaidResponse { get; set; }
+        public HttpServiceClientResponse DeepStackResponse { get; set; }
 
         private string GetErrorMessageFromStatusCode(HttpStatusCode httpStatusCode)
         {

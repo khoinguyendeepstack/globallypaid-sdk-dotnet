@@ -72,10 +72,10 @@ namespace DeepStack.Tests
             var exception = Assert.Throws<DeepStackException>(() =>
                service.Capture(GetCaptureRequest(), GetTestRequestOptions()));
 
-            Assert.Equal(HttpStatusCode.OK, exception.GloballyPaidResponse.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, exception.DeepStackResponse.StatusCode);
             Assert.Equal("Exception of type 'GloballyPaid.DeepStackException' was thrown.", exception.Message);
             //Assert.Equal($"Invalid response object from API: \"{GetInvalidJson()}\"", exception.ErrorMessage);
-            Assert.Equal($"{GetInvalidJson()}", exception.GloballyPaidResponse.Content);
+            Assert.Equal($"{GetInvalidJson()}", exception.DeepStackResponse.Content);
         }
 
         [Fact]
@@ -86,10 +86,10 @@ namespace DeepStack.Tests
             var exception = Assert.Throws<DeepStackException>(() =>
                service.Capture(GetCaptureRequest(), GetTestRequestOptions()));
 
-            Assert.Equal(HttpStatusCode.BadRequest, exception.GloballyPaidResponse.StatusCode);
+            Assert.Equal(HttpStatusCode.BadRequest, exception.DeepStackResponse.StatusCode);
             Assert.Equal("Exception of type 'GloballyPaid.DeepStackException' was thrown.", exception.Message);
             Assert.Equal($"{GetInvalidStatusError()}", exception.ErrorMessage);
-            Assert.Equal($"{GetInvalidStatusError()}", exception.GloballyPaidResponse.Content);
+            Assert.Equal($"{GetInvalidStatusError()}", exception.DeepStackResponse.Content);
         }
 
         private CaptureRequest GetCaptureRequest()

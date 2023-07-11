@@ -67,7 +67,7 @@ namespace DeepStack.Extensions
         {
             DeepStackConfiguration.Setup(publishableApiKey, sharedSecret, appId, useSandbox, requestTimeoutSeconds);
 
-            return AddDeepStack(services);
+            return AddDeepStackServices(services);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace DeepStack.Extensions
         /// </summary>
         /// <param name="services">the <see cref="IServiceCollection"/> services</param>
         /// <returns>An <see cref="IServiceCollection"/> services collection, with all Globally Paid services registered. </returns>
-        public static IServiceCollection AddDeepStack(this IServiceCollection services)
+        public static IServiceCollection AddDeepStackServices(this IServiceCollection services)
         {
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IChargeService, ChargeService>();

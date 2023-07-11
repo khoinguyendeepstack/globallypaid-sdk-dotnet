@@ -1,6 +1,11 @@
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using DeepStack.Core;
+using DeepStack.Entities;
+using DeepStack.Extensions;
+using DeepStack.Requests;
+using DeepStack.Services.v1;
 using Xunit;
 
 namespace DeepStack.Tests
@@ -67,10 +72,10 @@ namespace DeepStack.Tests
             var exception = Assert.Throws<DeepStackException>(() =>
                service.Refund(GetRefundRequest(), GetTestRequestOptions()));
 
-            Assert.Equal(HttpStatusCode.OK, exception.GloballyPaidResponse.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, exception.DeepStackResponse.StatusCode);
             Assert.Equal("Exception of type 'GloballyPaid.DeepStackException' was thrown.", exception.Message);
             //Assert.Equal($"Invalid response object from API: \"{GetInvalidJson()}\"", exception.ErrorMessage);
-            Assert.Equal($"{GetInvalidJson()}", exception.GloballyPaidResponse.Content);
+            Assert.Equal($"{GetInvalidJson()}", exception.DeepStackResponse.Content);
         }
 
         [Fact]
@@ -81,10 +86,10 @@ namespace DeepStack.Tests
             var exception = Assert.Throws<DeepStackException>(() =>
                service.Refund(GetRefundRequest(), GetTestRequestOptions()));
 
-            Assert.Equal(HttpStatusCode.BadRequest, exception.GloballyPaidResponse.StatusCode);
+            Assert.Equal(HttpStatusCode.BadRequest, exception.DeepStackResponse.StatusCode);
             Assert.Equal("Exception of type 'GloballyPaid.DeepStackException' was thrown.", exception.Message);
             Assert.Equal($"{GetInvalidStatusError()}", exception.ErrorMessage);
-            Assert.Equal($"{GetInvalidStatusError()}", exception.GloballyPaidResponse.Content);
+            Assert.Equal($"{GetInvalidStatusError()}", exception.DeepStackResponse.Content);
         }
 
         private RefundRequest GetRefundRequest()

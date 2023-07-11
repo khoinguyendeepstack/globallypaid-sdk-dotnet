@@ -120,7 +120,7 @@ namespace DeepStack.Services.v1
         public IPaymentInstrument Create(PaymentInstrumentTokenRequest paymentInstrumentTokenRequest,
             RequestOptions requestOptions = null)
         {
-            TryReconfigureClient(paymentInstrumentTokenRequest, requestOptions);
+            TryReconfigureClient(paymentInstrumentTokenRequest, requestOptions, "POST");
             return Client.Post<PaymentInstrumentTokenRequest, IPaymentInstrument>($"{BasePath}/token",
                 paymentInstrumentTokenRequest);
         }
@@ -135,7 +135,7 @@ namespace DeepStack.Services.v1
         public async Task<IPaymentInstrument> CreateAsync(PaymentInstrumentTokenRequest paymentInstrumentTokenRequest,
             RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
         {
-            TryReconfigureClient(paymentInstrumentTokenRequest, requestOptions);
+            TryReconfigureClient(paymentInstrumentTokenRequest, requestOptions, "POST");
             return await Client.PostAsync<PaymentInstrumentTokenRequest, IPaymentInstrument>($"{BasePath}/token",
                 paymentInstrumentTokenRequest, checkResponseCode: false, cancellationToken);
         }

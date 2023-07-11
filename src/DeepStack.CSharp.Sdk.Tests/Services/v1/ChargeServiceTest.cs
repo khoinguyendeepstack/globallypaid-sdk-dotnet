@@ -112,10 +112,10 @@ namespace DeepStack.Tests
             var exception = Assert.Throws<DeepStackException>(() =>
                service.Charge(GetChargeRequest(), GetTestRequestOptions()));
 
-            Assert.Equal(HttpStatusCode.OK, exception.GloballyPaidResponse.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, exception.DeepStackResponse.StatusCode);
             Assert.Equal("Exception of type 'GloballyPaid.DeepStackException' was thrown.", exception.Message);
             //Assert.Equal($"Invalid response object from API: \"{GetInvalidJson()}\"", exception.ErrorMessage);
-            Assert.Equal($"{GetInvalidJson()}", exception.GloballyPaidResponse.Content);
+            Assert.Equal($"{GetInvalidJson()}", exception.DeepStackResponse.Content);
         }
 
         [Fact]
@@ -126,10 +126,10 @@ namespace DeepStack.Tests
             var exception = Assert.Throws<DeepStackException>(() =>
                service.Charge(GetChargeRequest(), GetTestRequestOptions()));
 
-            Assert.Equal(HttpStatusCode.BadRequest, exception.GloballyPaidResponse.StatusCode);
+            Assert.Equal(HttpStatusCode.BadRequest, exception.DeepStackResponse.StatusCode);
             Assert.Equal("Exception of type 'GloballyPaid.DeepStackException' was thrown.", exception.Message);
             Assert.Equal($"{GetInvalidStatusError()}", exception.ErrorMessage);
-            Assert.Equal($"{GetInvalidStatusError()}", exception.GloballyPaidResponse.Content);
+            Assert.Equal($"{GetInvalidStatusError()}", exception.DeepStackResponse.Content);
         }
 
         private ChargeRequest GetChargeRequest(bool capture = true, bool savePaymentInstrument = false)
@@ -159,11 +159,11 @@ namespace DeepStack.Tests
             return new ChargeResponse()
             {
                 ID = "id",
-                Source = new PaymentInstrumentCardOnFile()
+                Source = new PaymentSourceRawCard()
                 { 
                     Type = PaymentSourceType.CARD_ON_FILE,
                     Id = "id"
-                }
+                },
                 Amount = 1299,
                 ResponseCode = "00",
                 Message = "charged",

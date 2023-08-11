@@ -5,8 +5,8 @@ namespace DeepStack.Core
 {
     internal static class DeepStackConstants
     {
-        public const string DefaultBaseUrl = "https://api.globallypaid.com";
-        public const string DefaultSandboxBaseUrl = "https://qa.api.globallypaid.com";
+        public const string DefaultBaseUrl = "https://api.sandbox.deepstack.io";
+        public const string DefaultSandboxBaseUrl = "https://api.deepstack.io";
         // public const string DefaultSandboxBaseUrl = "https://localhost:5002";
 
         public static readonly string ApplicationJson = "application/json";

@@ -7,7 +7,7 @@ namespace DeepStack.Core
     /// </summary>
     public static class DeepStackConfiguration
     {
-        private const string PUBLISHALE_API_KEY = "DeepStackPublishableApiKey";
+        private const string PUBLISHABLE_API_KEY = "DeepStackPublishableApiKey";
         private const string SHARED_SECRET = "DeepStackSharedSecret";
         private const string APP_ID = "DeepStackAppId";
         private const string USE_SANDBOX = "DeepStackUseSandbox";
@@ -75,9 +75,9 @@ namespace DeepStack.Core
             get
             {
                 if (string.IsNullOrEmpty(publishableApiKey) &&
-                    !string.IsNullOrEmpty(ConfigurationManager.AppSettings[PUBLISHALE_API_KEY]))
+                    !string.IsNullOrEmpty(ConfigurationManager.AppSettings[PUBLISHABLE_API_KEY]))
                 {
-                    publishableApiKey = ConfigurationManager.AppSettings[PUBLISHALE_API_KEY];
+                    publishableApiKey = ConfigurationManager.AppSettings[PUBLISHABLE_API_KEY];
                 }
 
                 return publishableApiKey;

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using DeepStack.Enums;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -16,6 +17,18 @@ namespace DeepStack.Entities.Common
         /// </summary>
         [JsonProperty("amount", Required = Required.Always)]
         public int Amount { get; set; }
+        
+        /// <summary>
+        /// A list of fees included in the Amount.
+        /// </summary>
+        [JsonProperty("fees", NullValueHandling = NullValueHandling.Ignore)]
+        public List<Fee> Fees { get; set; }
+        
+        /// <summary>
+        /// Custom Merchant Dynamic Descriptor
+        /// </summary>
+        [JsonProperty("descriptor", NullValueHandling = NullValueHandling.Ignore)]
+        public string Descriptor { get; set; }
 
         /// <summary>
         /// When set to true (default), the charge will be immediately captured against the payment method specified.

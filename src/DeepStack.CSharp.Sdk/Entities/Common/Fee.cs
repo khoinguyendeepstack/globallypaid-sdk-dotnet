@@ -11,7 +11,6 @@ namespace DeepStack.Entities.Common
         [JsonProperty("description")]
         public string Description { get; set; }
 
-        [JsonProperty("amount")]
-        public string Amount { get; set; }
+        [JsonProperty("amount")] public int Amount { get; set; } = 0;
     }
 }

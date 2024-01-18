@@ -7,7 +7,6 @@ namespace DeepStack.Core
     {
         public const string DefaultBaseUrl = "https://api.deepstack.io";
         public const string DefaultSandboxBaseUrl = "https://api.sandbox.deepstack.io";
-        // public const string DefaultSandboxBaseUrl = "https://localhost:5002";
 
         public static readonly string ApplicationJson = "application/json";
         public static readonly string BearerAuthenticationScheme = "Bearer";
